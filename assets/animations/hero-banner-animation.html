@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация баннера - Urban Brew</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .hero-banner {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #3E2723 0%, #5D4037 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(141, 110, 99, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .content {
+            z-index: 2;
+            color: #D7CCC8;
+            max-width: 600px;
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .logo-text {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .logo-text .urban {
+            color: #D7CCC8;
+        }
+        
+        .logo-text .brew {
+            color: #8D6E63;
+        }
+        
+        .tagline {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .description {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #8D6E63;
+            color: #FFF;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+        
+        .cta-button:hover {
+            background: #A1887F;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .graphics {
+            z-index: 1;
+            position: relative;
+            animation: slideInRight 1s ease-out 0.5s both;
+        }
+        
+        .coffee-cup {
+            width: 300px;
+            height: auto;
+            opacity: 0.9;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .decorative-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .bean {
+            position: absolute;
+            opacity: 0.15;
+        }
+        
+        .bean-1 {
+            top: 10%;
+            right: 15%;
+            width: 60px;
+            transform: rotate(25deg);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .bean-2 {
+            bottom: 20%;
+            right: 10%;
+            width: 80px;
+            transform: rotate(-15deg);
+            animation: rotate 25s linear infinite reverse;
+        }
+        
+        .bean-3 {
+            top: 50%;
+            right: 5%;
+            width: 50px;
+            transform: rotate(45deg);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-banner">
+        <div class="decorative-elements">
+            <svg class="bean bean-1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="32" rx="20" ry="28" fill="#D7CCC8" transform="rotate(-15 32 32)"/>
+            </svg>
+            <svg class="bean bean-2" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="32" rx="20" ry="28" fill="#D7CCC8" transform="rotate(25 32 32)"/>
+            </svg>
+            <svg class="bean bean-3" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="32" rx="20" ry="28" fill="#D7CCC8" transform="rotate(-45 32 32)"/>
+            </svg>
+        </div>
+        
+        <div class="content">
+            <h1 class="logo-text">
+                <span class="urban">Urban</span><br>
+                <span class="brew">Brew</span>
+            </h1>
+            <p class="tagline">Ваш идеальный кофе каждый день</p>
+            <p class="description">
+                Откройте для себя мир премиального кофе в самом сердце города. 
+                Свежеобжаренные зерна, уютная атмосфера и незабываемый вкус.
+            </p>
+            <a href="#" class="cta-button">Посетить кофейню</a>
+        </div>
+        
+        <div class="graphics">
+            <svg class="coffee-cup" viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#D7CCC8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M 20 20 L 20 70 Q 20 80 30 80 L 50 80 Q 60 80 60 70 L 60 20"/>
+                    <path d="M 60 40 Q 75 40 75 55 Q 75 70 60 70"/>
+                    <ellipse cx="40" cy="85" rx="35" ry="5"/>
+                    <g opacity="0.7">
+                        <path d="M 30 20 Q 28 10 30 0" stroke-width="2"/>
+                        <path d="M 40 20 Q 38 10 40 0" stroke-width="2"/>
+                        <path d="M 50 20 Q 48 10 50 0" stroke-width="2"/>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+</body>
+</html>
+

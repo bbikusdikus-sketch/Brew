@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urban Brew - Демо страница с заказом</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #3E2723;
+      --accent: #8D6E63;
+      --background: #EFEBE9;
+      --surface: #FFFFFF;
+      --secondary: #5D4037;
+      --light: #D7CCC8;
+      --success: #4CAF50;
+      --error: #F44336;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background);
+      color: var(--primary);
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    section {
+      padding: 80px 0;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: var(--secondary);
+    }
+    header {
+      background: var(--surface);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    .cart-badge {
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      margin-left: 5px;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--background);
+      text-align: center;
+      padding: 120px 0;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn:hover {
+      background: #A1887F;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+    .btn-secondary:hover {
+      background: rgba(141, 110, 99, 0.1);
+    }
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+    .btn-success {
+      background: var(--success);
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .menu-item {
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-item:hover {
+      transform: translateY(-5px);
+    }
+    .menu-image {
+      height: 200px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .menu-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .menu-content {
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    .menu-description {
+      color: var(--secondary);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .menu-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    .price {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 1.3rem;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .quantity-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--light);
+      border: none;
+      color: var(--primary);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quantity {
+      font-weight: 600;
+      min-width: 30px;
+      text-align: center;
+    }
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 350px;
+      height: 100vh;
+      background: var(--surface);
+      box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+      z-index: 1001;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-sidebar.active {
+      right: 0;
+    }
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-items {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--light);
+    }
+    .cart-item-info h4 {
+      margin-bottom: 5px;
+    }
+    .cart-item-price {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cart-footer {
+      padding: 24px;
+      border-top: 1px solid var(--light);
+    }
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+    }
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--success);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1002;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .notification.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary);
+    }
+    .remove-item {
+      background: none;
+      border: none;
+      color: var(--error);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .nav-links { gap: 15px; font-size: 0.9rem; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">Urban Brew</a>
+        <ul class="nav-links">
+          <li><a href="#menu">
+            <svg width="20" height="20" viewBox="0 0 32 32">
+              <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <line x1="6" y1="10" x2="26" y2="10"/><line x1="6" y1="16" x2="26" y2="16"/><line x1="6" y1="22" x2="26" y2="22"/>
+              </g>
+            </svg> Меню
+          </a></li>
+          <li><a href="#contacts">
+            <svg width="20" height="20" viewBox="0 0 32 32">
+              <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4L6 8v6q0 6 4 10t6 4q2 0 4-4t4-10V8z"/><circle cx="16" cy="18" r="3"/>
+              </g>
+            </svg> Контакты
+          </a></li>
+          <li>
+            <a href="#" id="cart-toggle">
+              <svg width="20" height="20" viewBox="0 0 32 32">
+                <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="26" r="2"/><circle cx="22" cy="26" r="2"/>
+                  <path d="M6 6h4l2 12h12l2-8H8"/>
+                </g>
+              </svg> Корзина
+              <span class="cart-badge" id="cart-count">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Ваш заказ</h3>
+      <button class="close-cart" id="close-cart">×</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <!-- Товары будут добавляться динамически -->
+      <div style="text-align: center; padding: 40px 20px; color: var(--secondary);">
+        <svg width="64" height="64" viewBox="0 0 32 32" style="margin-bottom: 20px; stroke: var(--light);">
+          <g stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="26" r="2"/><circle cx="22" cy="26" r="2"/>
+            <path d="M6 6h4l2 12h12l2-8H8"/>
+          </g>
+        </svg>
+        <p>Корзина пуста</p>
+        <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из меню</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Итого:</span>
+        <span id="cart-total">0 ₽</span>
+      </div>
+      <button class="btn btn-success" style="width: 100%;" id="checkout-btn">Оформить заказ</button>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">Товар добавлен в корзину!</div>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Urban Brew</h1>
+      <p>Премиальный кофе, приготовленный с заботой и вниманием к деталям. Закажите онлайн или посетите нашу кофейню.</p>
+      <a href="#menu" class="btn">Заказать онлайн</a>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <h2 class="section-title">Наше меню</h2>
+      <p style="text-align: center; margin-bottom: 30px; color: var(--secondary);">Выберите напиток, укажите количество и добавьте в корзину</p>
+      
+      <div class="menu-grid">
+        
+        <!-- Эспрессо -->
+        <div class="menu-item" data-id="1" data-name="Эспрессо" data-price="150">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 30)">
+                <rect x="30" y="40" width="40" height="80" rx="5" fill="#8D6E63"/>
+                <ellipse cx="50" cy="130" rx="30" ry="10" fill="#5D4037"/>
+                <path d="M20,30 Q30,10 50,10 Q70,10 80,30" stroke="#3E2723" stroke-width="4" fill="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Эспрессо</h3>
+            <p class="menu-description">Классический крепкий кофе из свежесмолотых зерен. Идеальный баланс горечи и кислотности.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="1">-</button>
+              <span class="quantity" data-id="1">1</span>
+              <button class="quantity-btn plus" data-id="1">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">150 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="1">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Латте -->
+        <div class="menu-item" data-id="2" data-name="Латте" data-price="200">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 20)">
+                <rect x="20" y="50" width="60" height="90" rx="5" fill="#EFEBE9"/>
+                <ellipse cx="50" cy="150" rx="35" ry="10" fill="#8D6E63"/>
+                <circle cx="50" cy="30" r="20" fill="#FFFFFF"/>
+                <path d="M30,25 Q50,15 70,25" stroke="#5D4037" stroke-width="3" fill="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Латте</h3>
+            <p class="menu-description">Нежный кофе с большим количеством молока и молочной пенкой. Идеально для утреннего пробуждения.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="2">-</button>
+              <span class="quantity" data-id="2">1</span>
+              <button class="quantity-btn plus" data-id="2">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">200 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="2">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Капучино -->
+        <div class="menu-item" data-id="3" data-name="Капучино" data-price="180">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 20)">
+                <rect x="25" y="50" width="50" height="80" rx="5" fill="#A1887F"/>
+                <ellipse cx="50" cy="140" rx="30" ry="10" fill="#5D4037"/>
+                <rect x="35" y="30" width="30" height="25" rx="3" fill="#FFFFFF"/>
+                <circle cx="50" cy="25" r="15" fill="#FFFFFF"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Капучино</h3>
+            <p class="menu-description">Идеальный баланс эспрессо, молока и молочной пены. Классика итальянского кофейного искусства.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="3">-</button>
+              <span class="quantity" data-id="3">1</span>
+              <button class="quantity-btn plus" data-id="3">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">180 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="3">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Американо -->
+        <div class="menu-item" data-id="4" data-name="Американо" data-price="160">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 30)">
+                <rect x="30" y="40" width="40" height="90" rx="5" fill="#5D4037"/>
+                <ellipse cx="50" cy="140" rx="30" ry="10" fill="#3E2723"/>
+                <path d="M25,30 Q35,15 50,15 Q65,15 75,30" stroke="#8D6E63" stroke-width="4" fill="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Американо</h3>
+            <p class="menu-description">Эспрессо с добавлением горячей воды. Менее концентрированный, но с сохранением насыщенного вкуса.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="4">-</button>
+              <span class="quantity" data-id="4">1</span>
+              <button class="quantity-btn plus" data-id="4">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">160 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="4">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Раф кофе -->
+        <div class="menu-item" data-id="5" data-name="Раф кофе" data-price="220">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 20)">
+                <rect x="20" y="50" width="60" height="90" rx="5" fill="#F5F5F5"/>
+                <ellipse cx="50" cy="150" rx="35" ry="10" fill="#8D6E63"/>
+                <path d="M30,30 Q50,10 70,30" stroke="#FF9800" stroke-width="4" fill="none"/>
+                <circle cx="50" cy="25" r="18" fill="#FFECB3"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Раф кофе</h3>
+            <p class="menu-description">Сливки, взбитые с эспрессо и ванильным сиропом. Нежный и воздушный напиток.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="5">-</button>
+              <span class="quantity" data-id="5">1</span>
+              <button class="quantity-btn plus" data-id="5">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">220 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="5">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Мокачино -->
+        <div class="menu-item" data-id="6" data-name="Мокачино" data-price="210">
+          <div class="menu-image">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#D7CCC8"/>
+              <g transform="translate(50, 20)">
+                <rect x="20" y="50" width="60" height="90" rx="5" fill="#6D4C41"/>
+                <ellipse cx="50" cy="150" rx="35" ry="10" fill="#3E2723"/>
+                <rect x="35" y="30" width="30" height="25" rx="3" fill="#8D6E63"/>
+                <circle cx="50" cy="25" r="12" fill="#D7CCC8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="menu-content">
+            <h3>Мокачино</h3>
+            <p class="menu-description">Шоколадный сироп, эспрессо, молоко и молочная пена. Для настоящих ценителей шоколада.</p>
+            <div class="quantity-controls">
+              <button class="quantity-btn minus" data-id="6">-</button>
+              <span class="quantity" data-id="6">1</span>
+              <button class="quantity-btn plus" data-id="6">+</button>
+            </div>
+            <div class="menu-footer">
+              <div class="price">210 ₽</div>
+              <button class="btn btn-small add-to-cart" data-id="6">В корзину</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="container">
+      <h2 class="section-title">Как сделать заказ</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+        <div style="background: var(--surface); padding: 30px; border-radius: 12px; text-align: center;">
+          <svg width="64" height="64" viewBox="0 0 32 32" style="margin-bottom: 20px; stroke: var(--accent);">
+            <g stroke-width="1.5" fill="none" stroke-linecap="round">
+              <line x1="6" y1="10" x2="26" y2="10"/><line x1="6" y1="16" x2="26" y2="16"/><line x1="6" y1="22" x2="26" y2="22"/>
+            </g>
+          </svg>
+          <h3>1. Выберите напиток</h3>
+          <p>Изучите наше меню и выберите понравившийся напиток</p>
+        </div>
+        <div style="background: var(--surface); padding: 30px; border-radius: 12px; text-align: center;">
+          <svg width="64" height="64" viewBox="0 0 32 32" style="margin-bottom: 20px; stroke: var(--accent);">
+            <g stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="26" r="2"/><circle cx="22" cy="26" r="2"/>
+              <path d="M6 6h4l2 12h12l2-8H8"/>
+            </g>
+          </svg>
+          <h3>2. Добавьте в корзину</h3>
+          <p>Укажите количество и нажмите "В корзину"</p>
+        </div>
+        <div style="background: var(--surface); padding: 30px; border-radius: 12px; text-align: center;">
+          <svg width="64" height="64" viewBox="0 0 32 32" style="margin-bottom: 20px; stroke: var(--accent);">
+            <g stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4L6 8v6q0 6 4 10t6 4q2 0 4-4t4-10V8z"/><circle cx="16" cy="18" r="3"/>
+            </g>
+          </svg>
+          <h3>3. Заберите заказ</h3>
+          <p>Оформите заказ онлайн и заберите в кофейне</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+        <div>
+          <h3 style="color: var(--light); margin-bottom: 20px;">Urban Brew</h3>
+          <p>Премиальный кофе в центре города</p>
+          <p style="margin-top: 20px; font-size: 0.9rem;">Демо-версия сайта с функцией заказа</p>
+        </div>
+        <div>
+          <h4 style="color: var(--light); margin-bottom: 15px;">Контакты</h4>
+          <p>ул. Кофейная, 15</p>
+          <p>+7 (999) 123-45-67</p>
+          <p>info@urbanbrew.ru</p>
+        </div>
+        <div>
+          <h4 style="color: var(--light); margin-bottom: 15px;">Часы работы</h4>
+          <p>Пн-Пт: 8:00 - 22:00</p>
+          <p>Сб-Вс: 9:00 - 23:00</p>
+        </div>
+      </div>
+      <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p>&copy; 2025 Urban Brew. Демонстрационная страница с функцией онлайн-заказа.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Корзина
+    let cart = {};
+    const cartItems = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartToggle = document.getElementById('cart-toggle');
+    const closeCart = document.getElementById('close-cart');
+    const notification = document.getElementById('notification');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    // Открыть/закрыть корзину
+    cartToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      cartSidebar.classList.add('active');
+      cartOverlay.classList.add('active');
+    });
+
+    closeCart.addEventListener('click', () => {
+      cartSidebar.classList.remove('active');
+      cartOverlay.classList.remove('active');
+    });
+
+    cartOverlay.addEventListener('click', () => {
+      cartSidebar.classList.remove('active');
+      cartOverlay.classList.remove('active');
+    });
+
+    // Управление количеством
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        const item = document.querySelector(`.menu-item[data-id="${id}"]`);
+        const quantityElement = document.querySelector(`.quantity[data-id="${id}"]`);
+        let quantity = parseInt(quantityElement.textContent);
+        
+        if (e.target.classList.contains('plus')) {
+          quantity++;
+        } else if (e.target.classList.contains('minus') && quantity > 1) {
+          quantity--;
+        }
+        
+        quantityElement.textContent = quantity;
+      });
+    });
+
+    // Добавить в корзину
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        const item = document.querySelector(`.menu-item[data-id="${id}"]`);
+        const name = item.getAttribute('data-name');
+        const price = parseInt(item.getAttribute('data-price'));
+        const quantity = parseInt(document.querySelector(`.quantity[data-id="${id}"]`).textContent);
+        
+        addToCart(id, name, price, quantity);
+        showNotification(`${name} добавлен в корзину!`);
+        
+        // Сбросить количество к 1
+        document.querySelector(`.quantity[data-id="${id}"]`).textContent = '1';
+      });
+    });
+
+    // Функция добавления в корзину
+    function addToCart(id, name, price, quantity) {
+      if (cart[id]) {
+        cart[id].quantity += quantity;
+      } else {
+        cart[id] = { name, price, quantity };
+      }
+      
+      updateCart();
+    }
+
+    // Обновить корзину
+    function updateCart() {
+      // Обновить счетчик
+      let totalCount = 0;
+      let totalPrice = 0;
+      
+      for (const id in cart) {
+        totalCount += cart[id].quantity;
+        totalPrice += cart[id].price * cart[id].quantity;
+      }
+      
+      cartCount.textContent = totalCount;
+      cartTotal.textContent = `${totalPrice} ₽`;
+      
+      // Обновить список товаров
+      if (totalCount === 0) {
+        cartItems.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: var(--secondary);">
+            <svg width="64" height="64" viewBox="0 0 32 32" style="margin-bottom: 20px; stroke: var(--light);">
+              <g stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="26" r="2"/><circle cx="22" cy="26" r="2"/>
+                <path d="M6 6h4l2 12h12l2-8H8"/>
+              </g>
+            </svg>
+            <p>Корзина пуста</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из меню</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let cartHTML = '';
+      for (const id in cart) {
+        const item = cart[id];
+        const itemTotal = item.price * item.quantity;
+        
+        cartHTML += `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <h4>${item.name}</h4>
+              <div class="cart-item-price">${item.price} ₽ × ${item.quantity}</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+              <div class="cart-item-price" style="font-size: 1.1rem;">${itemTotal} ₽</div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="quantity-btn minus-cart" data-id="${id}" style="width: 24px; height: 24px; font-size: 1rem;">-</button>
+                <span>${item.quantity}</span>
+                <button class="quantity-btn plus-cart" data-id="${id}" style="width: 24px; height: 24px; font-size: 1rem;">+</button>
+              </div>
+              <button class="remove-item" data-id="${id}">Удалить</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      cartItems.innerHTML = cartHTML;
+      
+      // Добавить обработчики для кнопок в корзине
+      document.querySelectorAll('.minus-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.target.getAttribute('data-id');
+          if (cart[id].quantity > 1) {
+            cart[id].quantity--;
+          } else {
+            delete cart[id];
+          }
+          updateCart();
+        });
+      });
+      
+      document.querySelectorAll('.plus-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.target.getAttribute('data-id');
+          cart[id].quantity++;
+          updateCart();
+        });
+      });
+      
+      document.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.target.getAttribute('data-id');
+          delete cart[id];
+          updateCart();
+        });
+      });
+    }
+
+    // Показать уведомление
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.classList.add('active');
+      
+      setTimeout(() => {
+        notification.classList.remove('active');
+      }, 3000);
+    }
+
+    // Оформление заказа
+    checkoutBtn.addEventListener('click', () => {
+      if (Object.keys(cart).length === 0) {
+        showNotification('Добавьте товары в корзину');
+        return;
+      }
+      
+      let orderDetails = 'Ваш заказ:\n';
+      let totalPrice = 0;
+      
+      for (const id in cart) {
+        const item = cart[id];
+        const itemTotal = item.price * item.quantity;
+        orderDetails += `${item.name} - ${item.quantity} × ${item.price} ₽ = ${itemTotal} ₽\n`;
+        totalPrice += itemTotal;
+      }
+      
+      orderDetails += `\nИтого: ${totalPrice} ₽`;
+      
+      alert(orderDetails + '\n\nСпасибо за заказ! Заберите его в нашей кофейне.');
+      
+      // Очистить корзину
+      cart = {};
+      updateCart();
+      cartSidebar.classList.remove('active');
+      cartOverlay.classList.remove('active');
+      showNotification('Заказ оформлен! Спасибо!');
+    });
+
+    // Инициализация
+    updateCart();
+  </script>
+
+</body>
+</html>

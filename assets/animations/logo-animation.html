@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GIF Анимация логотипа - Urban Brew</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      background: #EFEBE9; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh; 
+      margin: 0;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .animation-container {
+      width: 200px;
+      height: 80px;
+      position: relative;
+      margin-bottom: 40px;
+    }
+    .coffee-cup {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      width: 60px;
+      height: 60px;
+    }
+    .cup-body {
+      fill: none;
+      stroke: #3E2723;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      animation: rotate 3s linear infinite;
+      transform-origin: 30px 30px;
+    }
+    .steam {
+      position: absolute;
+      left: 50px;
+      top: 0;
+      width: 20px;
+      height: 20px;
+    }
+    .steam-1, .steam-2, .steam-3 {
+      fill: none;
+      stroke: #8D6E63;
+      stroke-width: 2;
+      stroke-linecap: round;
+      opacity: 0;
+    }
+    .steam-1 {
+      animation: steam 3s ease-in-out infinite;
+    }
+    .steam-2 {
+      animation: steam 3s ease-in-out infinite 0.5s;
+    }
+    .steam-3 {
+      animation: steam 3s ease-in-out infinite 1s;
+    }
+    .logo-text {
+      position: absolute;
+      right: 0;
+      top: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #3E2723;
+    }
+    .urban {
+      opacity: 0;
+      animation: fadeIn 3s ease-in-out infinite;
+    }
+    .brew {
+      opacity: 0;
+      animation: fadeIn 3s ease-in-out infinite 1.5s;
+    }
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes steam {
+      0% { transform: translateY(0); opacity: 0; }
+      50% { transform: translateY(-15px); opacity: 0.7; }
+      100% { transform: translateY(-30px); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+    .instructions {
+      max-width: 600px;
+      text-align: center;
+      font-family: sans-serif;
+      color: #5D4037;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .instructions h2 {
+      color: #3E2723;
+      margin-bottom: 15px;
+    }
+    .format-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #8D6E63;
+      color: white;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="animation-container">
+    <svg class="coffee-cup" viewBox="0 0 60 60">
+      <g class="cup-body">
+        <path d="M15 15 L15 45 Q15 50 20 50 L40 50 Q45 50 45 45 L45 15"/>
+        <path d="M45 25 Q55 25 55 35 Q55 45 45 45"/>
+        <ellipse cx="30" cy="55" rx="25" ry="5"/>
+      </g>
+    </svg>
+    <svg class="steam" viewBox="0 0 20 20">
+      <path class="steam-1" d="M10 0 Q8 5 10 10 Q12 5 10 0"/>
+      <path class="steam-2" d="M10 2 Q9 7 10 12 Q11 7 10 2"/>
+      <path class="steam-3" d="M10 4 Q8.5 9 10 14 Q11.5 9 10 4"/>
+    </svg>
+    <div class="logo-text">
+      <span class="urban">Urban</span><br>
+      <span class="brew">Brew</span>
+    </div>
+  </div>
+  
+  <div class="instructions">
+    <h2>GIF Анимация логотипа</h2>
+    <p><strong>Цель:</strong> Привлечь внимание к логотипу кофейни с помощью циклической анимации.</p>
+    <p><strong>Описание:</strong> Вращающаяся чашка кофе с анимированным паром и мигающим текстом.</p>
+    <p><strong>Технические параметры:</strong></p>
+    <ul style="text-align: left; margin: 15px 0;">
+      <li>Размер: 200×80px (1x), 400×160px (2x для Retina)</li>
+      <li>Формат: <span class="format-badge">GIF</span> и <span class="format-badge">MP4</span> для сравнения</li>
+      <li>Количество кадров: 12</li>
+      <li>Длительность цикла: 3 секунды</li>
+      <li>Loop: Forever (бесконечное повторение)</li>
+      <li>FPS: 4 кадра/секунду (оптимизировано)</li>
+    </ul>
+    <p><strong>Инструкция по экспорту:</strong> Запишите анимацию с экрана, импортируйте в Photoshop, оптимизируйте палитру и экспортируйте в GIF/MP4.</p>
+  </div>
+</body>
+</html>
